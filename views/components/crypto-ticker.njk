@@ -1,9 +1,8 @@
 <div class="crypto-ticker">
-	<h1>Crypto Portfolio</h1>
 	<p class="total">$0</p>
 	<div class="coins">
 		{% for coin, balance in cryptocurrencies %}
-			<div class="coin {{ coin }}">
+			<div class="coin {{ coin }} yellow-text">
 				<p class="name">{{ coin }}</p>
 				<p class="total-value">$0</p>
 				<p class="row balance">
