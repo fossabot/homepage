@@ -1,10 +1,10 @@
 // Required modules
 const gulp			= require('gulp');
 const nunjucks	= require('gulp-nunjucks');
+const rename		= require('gulp-rename');
 const stylus		= require('gulp-stylus');
 const concat		= require('gulp-concat');
-const uglify		= require('gulp-uglify');
-const rename		= require('gulp-rename');
+const minify		= require('gulp-minify');
 const pump			= require('pump');
 
 // Nunjucks task
@@ -31,18 +31,25 @@ gulp.task('stylus', () => {
 // JS Task
 gulp.task('scripts', () => {
 	pump([
-		gulp.src('scripts/*.js'),
+		gulp.src('scripts/main.js'),
 		concat('main.js'),
-		uglify(),
+		// minify({
+		// 	ext: {
+		// 		min: '.js'
+		// 	},
+		// 	noSource: true
+		// }),
 		gulp.dest('dist')
-	]);
+	], (err) => {
+		if (err) console.error(err);
+	});
 });
 
 // Watch task
 gulp.task('watch', () => {
 	gulp.watch(['views/**/*.njk', 'config.json'], ['nunjucks']);
 	gulp.watch('stylus/**/*.styl', ['stylus']);
-	gulp.watch('scripts/*.js', ['scripts']);
+	gulp.watch('scripts/**/*.js', ['scripts']);
 });
 
 // Default task

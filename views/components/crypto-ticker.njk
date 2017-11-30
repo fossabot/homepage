@@ -1,0 +1,20 @@
+<div class="crypto-ticker">
+	<h1>Crypto Portfolio</h1>
+	<p class="total">$0</p>
+	<div class="coins">
+		{% for coin, balance in cryptocurrencies %}
+			<div class="coin {{ coin }}">
+				<p class="name">{{ coin }}</p>
+				<p class="total-value">$0</p>
+				<p class="row balance">
+					<span class="label">Bal</span>
+					<span class="value">{{ balance | round(3) }}</span>
+				</p>
+				<p class="row value">
+					<span class="label">Val</span>
+					<span class="value">$0</span>
+				</p>
+			</div>
+		{% endfor %}
+	</div>
+</div>
