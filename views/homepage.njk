@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	{% include 'partials/head.njk' %}
+	<body>
+		<div id="main">
+			<div class="search-form">
+				<form action="{{ searchProvider.url }}">
+					<label for="{{ searchProvider.queryParameter }}">Search with {{ searchProvider.name }}</label>
+					<input type="text" name="{{ searchProvider.queryParameter }}" />
+				</form>
+			</div>
+			<div class="crypto-ticker">
+				<p class="total">$4250</p>
+				<div class="coins">
+					{% for coin, balance in cryptocurrencies %}
+						<div class="coin">
+							<p class="name">{{ coin }}</p>
+							<p class="total-value">$1120</p>
+							<p class="row balance">
+								<span class="label">Balance:</span>
+								<span class="value">{{ balance | round(3) }}</span>
+							</p>
+							<p class="row value">
+								<span class="label">Value:</span>
+								<span class="value">$10000</span>
+							</p>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% include 'partials/scripts.njk' %}
+	</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "name": "homepage",
+  "version": "0.0.1",
+  "description": "A simple homepage application",
+  "main": "homepage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabeotisbenson/homepage.git"
+  },
+  "keywords": [
+    "homepage",
+    "node",
+    "express"
+  ],
+  "author": "Gabriel Benson <me@gabe.xyz> (https://gabe.xyz)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/gabeotisbenson/homepage/issues"
+  },
+  "homepage": "https://github.com/gabeotisbenson/homepage#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "connect-ensure-login": "^0.1.1",
+    "connect-mongo": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-nunjucks": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-stylus": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "mongojs": "^2.4.1",
+    "nunjucks": "^3.0.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pump": "^1.0.3",
+    "stylus": "^0.54.5"
+  }
+}
