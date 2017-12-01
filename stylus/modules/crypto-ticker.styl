@@ -15,11 +15,10 @@ div.crypto-ticker
 		div.coin
 			display: flex
 			flex-direction: column
-			flex: 1 0 8rem
+			flex: 1 0 15rem
 			font-size: 1rem
 			margin-bottom: 1em
 			text-align: center
-			max-width: 15rem
 			p
 				margin: 0
 				padding: .25em 1em
@@ -35,6 +34,12 @@ div.crypto-ticker
 					display: flex
 					span
 						flex: 0 0 50%
+						&:first-of-type
+							padding-right: 1rem
+							text-align: right
+						&:last-of-type
+							padding-left: 1rem
+							text-align: left
 				&:nth-child(odd)
 					background: base01
 				&:nth-child(even)
