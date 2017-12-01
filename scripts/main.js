@@ -23,6 +23,16 @@ const getJSON = (url, callback) => {
 	request.send();
 };
 
+// A handy little each function
+const mysync = {
+	each: (arr, fn, cb) => {
+		arr.forEach((item, i) => {
+			fn(item);
+			if (i === arr.length - 1) cb();
+		});
+	}
+};
+
 // Our main function, to be run on page load
 const main = () => {
 	// Global variables
@@ -56,16 +66,19 @@ const main = () => {
 			const balance = Number(coinBlock.querySelector('p.balance span.value').innerHTML);
 			const valueSpan = coinBlock.querySelector('p.value span.value');
 			const totalValue = coinBlock.querySelector('p.total-value');
+			// If we have values cached in browser storage, throw those up first
 			if (coinValues && coinValues[coin]) {
 				valueSpan.innerHTML = '$' + coinValues[coin].toFixed(2);
 				totalValue.innerHTML = '$' + (coinValues[coin] * balance).toFixed(2);
 				coinBlock.classList.remove('yellow-text');
 			}
-			getJSON('http://coincap.io/page/' + coin, (err, data) => {
+			// While we wait for the current data from cryptocompare
+			getJSON('https://min-api.cryptocompare.com/data/price?tsyms=USD&fsym=' + coin, (err, data) => {
 				if (err) {
 					console.error(err);
 				} else {
-					valueSpan.innerHTML = '$' + Number(Math.round(data.price + 'e2') + 'e-2').toFixed(2);
+					// Values
+					valueSpan.innerHTML = '$' + Number(Math.round(data.USD + 'e2') + 'e-2').toFixed(2);
 					totalValue.innerHTML = '$' + (Number(valueSpan.innerHTML.substring(1)) * balance).toFixed(2);
 					coinBlock.classList.remove('yellow-text');
 					updateTotal();
@@ -75,34 +88,51 @@ const main = () => {
 		});
 	};
 
+	// CoinBlock updater
+	const updateCoinBlock = (coin, value) => {
+		const coinBlock = coinBlockContainer.querySelector('div.coin.' + coin);
+		const balanceBlock = coinBlock.querySelector('p.balance span.value');
+		const valueBlock = coinBlock.querySelector('p.value span.value');
+		const totalValueBlock = coinBlock.querySelector('p.total-value');
+		const balance = Number(balanceBlock.innerHTML);
+		const oldValue = Number(valueBlock.innerHTML.substring(1));
+		const totalValue = Number(totalValueBlock.innerHTML.substring(1));
+		if ((value * balance).toFixed(0) !== totalValue) {
+			coinBlock.classList.remove('yellow-text');
+			coinBlock.style.transition = 'color 250ms linear';
+			setTimeout(() => {
+				valueBlock.innerHTML = '$' + value.toFixed(2);
+				totalValueBlock.innerHTML = '$' + (value * balance).toFixed(2);
+				updateTotal();
+			}, 200);
+			coinBlock.classList.add(oldValue < value ? 'green-text' : 'red-text');
+			setTimeout(() => {
+				coinBlock.style.transition = 'color 1000ms linear';
+				coinBlock.classList.remove('green-text');
+				coinBlock.classList.remove('red-text');
+			}, 1000);
+		}
+	};
+
 	// Our socket plugger
 	const connectSocket = () => {
-		const socket = io.connect('http://socket.coincap.io');
-		socket.on('trades', (tradeMsg) => {
-			const coinBlock = coinBlockContainer.querySelector('div.coin.' + (isNaN(tradeMsg.coin.charAt(0)) ? '' : '\\3') + tradeMsg.coin);
-			if (coinBlock !== null) {
-				const balanceBlock = coinBlock.querySelector('p.balance span.value');
-				const valueBlock = coinBlock.querySelector('p.value span.value');
-				const totalValueBlock = coinBlock.querySelector('p.total-value');
-				const balance = Number(balanceBlock.innerHTML);
-				const oldValue = Number(valueBlock.innerHTML.substring(1));
-				const newValue = Number(Math.round(tradeMsg.message.msg.price + 'e2') + 'e-2');
-				if (oldValue !== newValue) {
-					coinBlock.classList.remove('yellow-text');
-					coinBlock.style.transition = 'color 250ms linear';
-					setTimeout(() => {
-						valueBlock.innerHTML = '$' + newValue.toFixed(2);
-						totalValueBlock.innerHTML = '$' + (newValue * balance).toFixed(2);
-						updateTotal();
-					}, 200);
-					coinBlock.classList.add(oldValue < newValue ? 'green-text' : 'red-text');
-					setTimeout(() => {
-						coinBlock.style.transition = 'color 1000ms linear';
-						coinBlock.classList.remove('green-text');
-						coinBlock.classList.remove('red-text');
-					}, 1000);
+		const socket = io.connect('https://streamer.cryptocompare.com');
+		// Create an array to hold our coin subscriptions
+		const subscription = [];
+		mysync.each(coinBlocks, (coinBlock) => {
+			const coin = coinBlock.querySelector('p.name').innerHTML;
+			subscription.push('5~CCCAGG~' + coin + '~USD');
+		}, () => {
+			socket.emit('SubAdd', { subs: subscription });
+			socket.on('m', (message) => {
+				message = message.split('~');
+				// Must match sub, , include price data and change
+				if (message[0] === '5' && message.length >= 5 && message[4] !== '4') {
+					const coin = message[2];
+					const value = Number(message[5]);
+					if (!isNaN(value)) updateCoinBlock(coin, value);
 				}
-			}
+			});
 		});
 	};
 
