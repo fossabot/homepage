@@ -5,10 +5,10 @@
 		"queryParameter": "q"
 	},
 	"cryptocurrencies": {
-		"BTC": 1,
-		"ETH": 1,
+		"XMR": 1,
 		"IOT": 1,
-		"LTC": 1,
-		"SC": 1
+		"VTC": 1,
+		"BTC": 1,
+		"ETH": 1
 	}
 }
