@@ -33,12 +33,12 @@ gulp.task('scripts', () => {
 	pump([
 		gulp.src('scripts/main.js'),
 		concat('main.js'),
-		// minify({
-		// 	ext: {
-		// 		min: '.js'
-		// 	},
-		// 	noSource: true
-		// }),
+		minify({
+			ext: {
+				min: '.js'
+			},
+			noSource: true
+		}),
 		gulp.dest('dist')
 	], (err) => {
 		if (err) console.error(err);
