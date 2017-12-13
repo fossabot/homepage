@@ -23,25 +23,12 @@
   "homepage": "https://github.com/gabeotisbenson/homepage#readme",
   "dependencies": {},
   "devDependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.18.2",
-    "connect-ensure-login": "^0.1.1",
-    "connect-mongo": "^2.0.0",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.2",
-    "express-session": "^1.15.6",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "gulp-htmlmin": "^3.0.0",
     "gulp-minify": "^2.1.0",
     "gulp-nunjucks": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-stylus": "^2.6.0",
-    "mongojs": "^2.4.1",
-    "nunjucks": "^3.0.1",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "pump": "^1.0.3",
-    "stylus": "^0.54.5"
+    "pump": "^1.0.3"
   }
 }
