@@ -56,4 +56,4 @@ gulp.task('watch', () => {
 gulp.task('default', ['nunjucks', 'stylus', 'scripts', 'watch']);
 
 // All task
-gulp.task('all', ['nujucks', 'stylus', 'scripts']);
+gulp.task('all', ['nunjucks', 'stylus', 'scripts']);
