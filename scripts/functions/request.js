@@ -1,5 +1,6 @@
 /* global XMLHttpRequest */
 
+// AJAX Request Function
 const getJSON = (url, callback) => {
 	const request = new XMLHttpRequest();
 	request.open('GET', url, true);
@@ -19,6 +20,12 @@ const getJSON = (url, callback) => {
 	request.send();
 };
 
-module.exports = {
-	getJSON
+// A handy little each function
+const mysync = {
+	each: (arr, fn, cb) => {
+		arr.forEach((item, i) => {
+			fn(item);
+			if (i === arr.length - 1) cb();
+		});
+	}
 };

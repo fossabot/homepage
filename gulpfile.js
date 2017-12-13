@@ -31,7 +31,11 @@ gulp.task('stylus', () => {
 // JS Task
 gulp.task('scripts', () => {
 	pump([
-		gulp.src('scripts/main.js'),
+		gulp.src([
+			'scripts/main.js',
+			'scripts/functions/*.js',
+			'scripts/modules/*.js'
+		]),
 		concat('main.js'),
 		minify({
 			ext: {
